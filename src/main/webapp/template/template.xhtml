@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <title>Muffin</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+
+        <h:form>
+            <!-- <h1 style="color:white">Busca un local</h1> -->
+            <h:outputText value="Buscar" />
+            <p:inputText  id="nombre" size="35" validatorMessage="Formato no valido">
+                <f:validateRegex for="nombre" pattern="[a-zA-Z0-9]+" />
+            
+            <p:message for="nombre"/>
+            </p:inputText>
+            <p:commandButton value="Buscar"  action="busqueda?faces-redirect=true"  />
+            <h:outputText value="   " />
+            <p:commandButton value="Iniciar sesion"  action="iniciarSesion?faces-redirect=true" style="alignment-adjust: after-edge" />
+            
+
+            <!-- Intento de separar en tres partes el top
+            <p:layout style="min-width:400px;min-height:50px;">
+                <p:layoutUnit position="west">
+                    <h:outputText value="Buscar" />
+                </p:layoutUnit>
+ 
+                <p:layoutUnit position="center">
+                    <p:inputText value="#{saludoController.nombre}" id="nombre" size="35" validatorMessage="Formato no valido">
+                    <f:validateRegex for="nombre" pattern="[a-zA-Z0-9]+" />
+                    <p:message for="nombre"/>
+                    </p:inputText>
+                    <p:commandButton value="Buscar"  actionListener="#{saludoController.cambiaNombre()}"  />
+                </p:layoutUnit>
+                
+                <p:layoutUnit position="east">
+                    <p:commandButton value="Iniciar sesion"  actionListener="#{saludoController.cambiaNombre()}"/>
+                </p:layoutUnit>
+            </p:layout>
+             fin del intento-->
+        </h:form>
+
+            
+        </div>
+        
+        <!-- lo vamos a eliminar del template
+        <div>
+            <div>
+                <div id="content" class="right_content">
+        <h:form>
+    <p:growl id="busquedaAvanzada" showDetail="true" />
+ 
+    <p:panel header="BUSQUEDA AVANZADA" style="margin-bottom:5px;">
+        <h:panelGrid columns="2" cellpadding="1">
+            <p:outputLabel for="categoria" value="Categoria: " />
+            <p:selectOneMenu id="categoria" value="#{dropdownView.country}" style="width:160px">
+                <p:ajax listener="#{dropdownView.onCountryChange}" />
+                <f:selectItem itemLabel="Seleccione categoria" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{dropdownView.countries}" />
+            </p:selectOneMenu>
+ 
+            <p:outputLabel for="facultad" value="Facultad: " />
+            <p:selectOneMenu id="facultad" value="#{dropdownView.city}" style="width:160px">
+                <f:selectItem itemLabel="Seleccione facultad" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{dropdownView.cities}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="metrobus" value="Metrobus: " />
+            <p:selectOneMenu id="metrobus" value="#{dropdownView.city}" style="width:160px">
+                <f:selectItem itemLabel="Seleccione metrobus" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{dropdownView.cities}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="pumabus" value="Pumabus: " />
+            <p:selectOneMenu id="pumabus" value="#{dropdownView.city}" style="width:160px">
+                <f:selectItem itemLabel="Seleccione pumabus" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{dropdownView.cities}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="metro" value="Metro: " />
+            <p:selectOneMenu id="metro" value="#{dropdownView.city}" style="width:160px">
+                <f:selectItem itemLabel="Seleccione metro" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{dropdownView.cities}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="bicipuma" value="Bicipuma: " />
+            <p:selectOneMenu id="bicipuma" value="#{dropdownView.city}" style="width:160px">
+                <f:selectItem itemLabel="Seleccione bicipuma" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{dropdownView.cities}" />
+            </p:selectOneMenu>
+
+            
+        <h:outputText value="Baño: " />
+        <p:selectBooleanButton id="bano" value="#{selectBooleanView.value1}" onLabel="Si" offLabel="No" style="width:60px" />
+ 
+        <h:outputText value="Estacionamiento: " />
+        <p:selectBooleanButton id="estacionamiento" value="#{selectBooleanView.value1}" onLabel="Si" offLabel="No" style="width:60px" />
+
+
+                   <h:outputText id="rango" value="Rango de precios: " />
+                   <p:slider  minValue="10" maxValue="200" 
+                              for="inferior,superior" 
+                              display="rango" style="width: 400px" 
+                              range="true" 
+                              displayTemplate="Precios entre $ {min} y $ {max} " />
+                   <p:message for="rango" />
+                                     
+                   <h:inputHidden  id="inferior" value="#{localController.local.rangoInferior}" required="true" />
+                   <h:inputHidden  id="superior" value="#{localController.local.rangoSuperior}" required="true" />
+
+                   
+        </h:panelGrid>
+ 
+        <p:separator />
+ 
+        <p:commandButton value="Buscar" update="busquedaAvanzada" actionListener="#{dropdownView.displayLocation}" icon="ui-icon-check" />
+    </p:panel>
+</h:form>
+
+                </div>
+            </div>
+        </div>
+        
+        fin de lo que se va a eliminar-->
+        
+        <div id="content" class="right_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+        
+        
+        <div id="bottom">
+
+        <h:form style="text-align: center;color: red">
+
+        <p:commandLink id="nosotros" action="quienesSomos?faces-redirect=true"> <!--ajax="false"-->
+            <h:outputText value="¿Quienes somos? " style="color: red" />
+        </p:commandLink>
+ 
+        <p:commandLink id="contacto" action="contacto?faces-redirect=true"> <!--ajax="false"--> 
+            <h:outputText value=" Contacto " style="color: red"/>
+        </p:commandLink>
+
+        
+
+            <br></br>
+            <h:outputText value="Politica de Privacidad: Para mejorar tu experiencia, Muffin recaba información acerca de tu" style="color: black"/>
+            <br/>
+            <h:outputText value="dispositivo: Sistema operativo, caracteristicas de hardware, etc." style="color: black"/>
+            <br/>
+            <h:outputText value="Toda información es guardada de forma segura y no se le compartira a terceros." style="color: black"/>
+            
+        </h:form>
+        </div>
+
+    </h:body>
+
+</html>

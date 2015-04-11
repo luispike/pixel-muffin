@@ -1,0 +1,120 @@
+--------------------------------Dependencias---------------------------------------
+<!-- Spring 3 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>3.2.8.RELEASE</version>
+		</dependency>
+ 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>3.2.8.RELEASE</version>
+		</dependency>
+ 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>3.2.8.RELEASE</version>
+		</dependency>
+
+
+
+---------------------------------Name Space-------------------------------------------------
+
+xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+
+--------------------------------Spring Beans----------------------------------------
+
+<mvc:annotation-driven />
+    
+<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+    
+<context:annotation-config />
+<context:component-scan base-package="mx.unam.ciencias.controller" />
+
+
+
+-------------------------------Web XML-------------------------------------------
+
+<!--Spring-->
+    
+    <!--Configuracion para cargar archivos de Spring -->   
+      <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/spring/appContext.xml
+        </param-value>
+    </context-param>
+    
+
+      <!-- Definicion del servlet de Springn-->
+      <servlet>
+        <servlet-name>Spring Servlet</servlet-name>
+        	<servlet-class>
+org.springframework.web.servlet.DispatcherServlet
+</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/spring/appContext.xml</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+      <!-- Tipo de peticiones que van a ser procesadas por spring-->
+      <servlet-mapping>
+        <servlet-name>Spring Servlet</servlet-name>
+        <url-pattern>*.spring</url-pattern>
+    </servlet-mapping>
+    
+    
+    <!-- Definicion del filtro de Spring para manejo de sesiones-->
+      <listener>
+        <listener-class>
+           org.springframework.security.web.session.HttpSessionEventPublisher
+        </listener-class>
+    </listener> 
+    
+    <!-- context loader -->
+    <!-- carga el appContext   -->   
+    <listener>
+<listener-class>
+		org.springframework.web.context.ContextLoaderListener
+</listener-class>
+    </listener>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.request.RequestContextListener
+        </listener-class>
+    </listener>
+
+
+-----------------------------Faces Config------------------------------------------
+
+
+<application>
+          <variable-resolver>
+            org.springframework.web.jsf.DelegatingVariableResolver
+          </variable-resolver>
+     </application>
+
+
+
+
+------------------------------Nuevas anotaciones------------------------------------------
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+@Controller("------")
+@Scope("session")
+
+
+
+
+
+
+
+

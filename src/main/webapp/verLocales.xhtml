@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">    
+   <ui:composition template="/template/template.xhtml" >
+        <ui:define name="content">
+            <script type="text/javascript" 
+                src="http://maps.googleapis.com/maps/api/js"
+                />
+           
+         <h:form id="form" >
+            <h4>Ver local</h4>
+                 <p:gmap id="gmap" 
+                         center="19.3142052,-99.1835216" 
+                         zoom="13" 
+                        type="HYBRID" 
+                        style="width:600px;height:400px"
+                        widgetVar="map"
+                        disableDoubleClickZoom="true"  
+                        model="#{localController.simpleModel}"
+                        >
+                </p:gmap>
+            
+            <br/>
+           
+        <p:separator/>
+                   <h:outputText id="rango" value="Rango de precios:" />
+                   <p:slider  minValue="20" maxValue="2000" 
+                              for="inferior,superior" 
+                              display="rango" style="width: 400px" 
+                              range="true" 
+                              displayTemplate="Precios entre $ {min} y $ {max} " />
+                   <p:commandButton ajax="true" update="@form"
+                             value="Buscar por rangos"
+                             actionListener="#{localController.buscarPorRango()}"
+                             />                                   
+                   <h:inputHidden  id="inferior" value="#{localController.inferior}"  />
+                   <h:inputHidden  id="superior" value="#{localController.superior}"  />
+              
+        <p:separator/>
+                   
+                   <p:selectOneMenu value="#{localController.rutaBusqueda}" >
+                       <f:selectItems value="#{localController.rutas}" 
+                                      var="_ruta"
+                                      itemValue="#{_ruta.nombreRuta}"
+                                      itemLabel="#{_ruta.nombreRuta}"
+                                      />
+                   </p:selectOneMenu>
+                   <p:commandButton ajax="true" update="@form"
+                             value="Buscar por Ruta"
+                             actionListener="#{localController.buscarPorNombreRuta()}"/>     
+        <p:separator/>
+                   
+            <p:inputText value="#{localController.terminoBusqueda}"/>
+           
+                            
+            <p:commandButton ajax="true" update="@form"
+                             value="Buscar por nombre"
+                             actionListener="#{localController.buscarPorNombre()}"
+                             />
+            <p:commandButton ajax="true" update="@form"
+                             value="Buscar por categoria"
+                             actionListener="#{localController.buscarPorCategoria()}"
+                             />
+            
+              <p:commandButton ajax="true" update="@form"
+                             value="Buscar por nombre menu"
+                             actionListener="#{localController.buscarPorNombreMenu()}"
+                             />
+              
+             
+              <p:separator/>              
+                                  
+            <p:dataTable  value="#{localController.locales}" 
+                          id="locales"
+                          var="_local" >  
+                <p:column headerText="Id" rendered="false">
+                    #{_local.id}
+                </p:column>
+                <p:column headerText="Nombre">
+                    #{_local.nombre}
+                </p:column>
+                <p:column headerText="Latitud">
+                    #{_local.latitud}
+                </p:column>
+
+                <p:column headerText="Longitud">
+                    #{_local.longitud}
+                </p:column>
+                <p:column headerText="Rango Inferior">
+                    <p:outputLabel value="#{_local.rangoInferior}" >
+                        <f:convertNumber currencySymbol="$" type="currency" locale="en"/>
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="Rango superior">
+                    <p:outputLabel value="#{_local.rangoSuperior}"  >
+                        <f:convertNumber currencySymbol="$" type="currency" locale="en"/>
+                    </p:outputLabel>
+                </p:column>
+                <p:column rendered="false">
+                    <p:commandButton actionListener="#{localController.borraLocal(_local)}"
+                                     update="@form"
+                                     value="Borrar"
+                                     ajax="true"/>
+                </p:column>
+                <p:column>
+                    <ul>
+                        <ui:repeat value="#{_local.menu}" var="_menu" >
+                            <li>#{_menu eq _local.recomendacion?'*':''}#{_menu.nombre} (#{_menu.categoria})</li>
+                        </ui:repeat>
+                    </ul>
+                </p:column> 
+                <p:column>
+                    <ul>
+                        <ui:repeat value="#{_local.rutas}" var="_ruta" >
+                            <li>#{_ruta.nombreRuta}</li>
+                        </ui:repeat>
+                    </ul>
+                </p:column> 
+                <p:column>
+                    <p:commandButton action="locales" actionListener="#{localController.setLocal(_local)}" />
+                </p:column>
+            </p:dataTable>
+            
+            
+            
+             
+            
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

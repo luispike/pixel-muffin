@@ -1,0 +1,97 @@
+
+--------------------Dependencias----------------------------------------------------    
+    <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>3.2.8.RELEASE</version>
+		</dependency>
+                
+                <dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>1.1.0.RELEASE</version>
+		</dependency>
+ 
+                <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>3.2.8.RELEASE</version>
+		</dependency>
+                
+          <!-- JPA - Hibernate -->
+         <dependency>
+                <groupId>org.hibernate</groupId> 
+                <artifactId>hibernate-entitymanager</artifactId> 
+                <version>4.3.1.Final</version>
+         </dependency>
+
+	  <!-- H2 -->
+         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.186</version>
+    	</dependency>
+
+-------------------Spring Name Space------------------------------------------------
+
+   xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+
+	http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd 
+
+-----------------------------Spring Data Config------------------------------------------------
+
+	<!-- Data Source -->
+       <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource" >
+            <property name="driverClass" value="org.h2.Driver"/>
+            <property name="url" value="jdbc:h2:./test"/>
+            <property name="username" value="sa"/>
+            <property name="password" value=""/>
+        </bean>
+
+	<!-- EntityManager -->
+        <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> 
+            <property name="dataSource" ref="dataSource" />
+            <property name="jpaVendorAdapter">
+                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" /> 
+            </property>
+            <property name="packagesToScan" value="mx.unam.ciencias.model"/> 
+            <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+                <prop key="hibernate.jdbc.fetch_size">50</prop>
+                <prop key="hibernate.jdbc.batch_size">10</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+            </property> 
+        </bean>
+
+	<!--Transaction Manager -->
+        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+            <property name="entityManagerFactory" ref="emf"/>
+        </bean>
+
+        <jpa:repositories base-package="mx.unam.ciencias.repository" entity-manager-factory-ref="emf" transaction-manager-ref="transactionManager"/>
+
+   
+-----------------------------------Anotaciones------------------------------------------------------
+
+-----------------------------------Repository------------------------------------------------------    
+    
+       (extends CrudRepository<Local, Integer>)
+    
+    @Query("SELECT l FROM Local l")
+    @Override
+    List<Local> findAll();
+
+    @Query("SELECT l FROM Local l WHERE l.nombre LIKE CONCAT('%',?,'%') ")
+    List<Local> findByNombre(String nombre);
+    
+    @Query("SELECT l FROM Local l WHERE l IN (SELECT m.local FROM Menu m WHERE m.categoria LIKE CONCAT('%',?,'%') ) ")
+    List<Local> findByCategoria(String categoria);
+    
+    @Query("SELECT l FROM Local l WHERE l IN (SELECT m.local FROM Menu m WHERE m.nombre LIKE CONCAT('%',?,'%') ) ")
+    List<Local> findByNombreMenu(String menu);
+    

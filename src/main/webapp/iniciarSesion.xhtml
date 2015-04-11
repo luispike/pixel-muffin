@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/template/template.xhtml" >
+        <ui:define name="content">
+        <h4>"Inicio Sesión"</h4>
+        
+        <br/>
+        
+        <h:form id="sesion">
+            <h:outputText value="Nombre de Usuario"  style="width: 100px;white-space: normal"/>
+            <br/>
+            <p:inputText value="Nombre" id="nombre" size="35" validatorMessage="Formato no valido">
+                <f:validateRegex for="nombre" pattern="[a-zA-Z0-9]+" />
+                <p:message for="nombre"/>
+            </p:inputText>
+            
+            <br/>
+            <br/>
+            
+            <h:outputText value="Contraseña"  style="width: 200px;white-space: normal"/>
+            <br/>
+            <p:inputText value="Password" id="pass" size="35" validatorMessage="Formato no valido">
+                <f:validateRegex for="nombre" pattern="[a-zA-Z0-9]+" />
+                <p:message for="nombre"/>
+            </p:inputText>
+               
+            <br/>
+            <br/>
+            
+            <p:commandButton value="Cancelar"  action="index?faces-redirect=true"  />
+            <h:outputText value="   " />
+            <!-- por el momento el botón iniciar sesión tambien regresa el index-->
+            <p:commandButton value="Iniciar sesion"  action="index?faces-redirect=true"  />
+            
+            
+        </h:form>
+        </ui:define>
+   </ui:composition>
+    
+</html>
