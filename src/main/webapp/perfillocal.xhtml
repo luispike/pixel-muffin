@@ -8,139 +8,183 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">   
    <ui:composition template="/template/template.xhtml" >
         <ui:define name="content">
-            
-            <script type="text/javascript" 
-                src="http://maps.googleapis.com/maps/api/js"
-                />
-        <script type="text/javascript"> 
-            var marker = null;
-            function agregaMarcador(event) {
-               if(window.marker!==null){
-                   marker.setMap(null);
-               }
-                var punto=new google.maps.LatLng(
-                        event.latLng.lat(), 
-                event.latLng.lng()
-                        );
-                window.marker = new google.maps.Marker({
-                        position:punto,
-                        title:'Lugar'
-                    });
-                    
-                    PF('map').addOverlay(marker);
-            };
-        </script>
-            
-            <h3>Perfil Local</h3>
-            
-            <h:form id="form">
-                
-                <!-- Seccion de los locales -->
-               <h:panelGrid id="local" columns="3">
-                    <h:outputText id="nombrelocal" value="Establecimiento X" />
-                    <!--
-                    <p:inputText id="nombre" value="#{localController.local.nombre}" required="true" />
-                    <p:message for="nombre" />
-					-->
-					<br></br><br></br>
-                   <h:outputText id="rango" value="Rango de precios:" />
-                   <p:slider  minValue="20" maxValue="2000" 
-                              for="inferior,superior" 
-                              display="rango" style="width: 400px" 
-                              range="true" 
-                              displayTemplate="Precios entre $ {min} y $ {max} " />
-                   <p:message for="rango" />
-					
-                   <h:inputHidden  id="inferior" value="#{localController.local.rangoInferior}" required="true" />
-                   <h:inputHidden  id="superior" value="#{localController.local.rangoSuperior}" required="true" />
-                   <p:separator/>
-                   
-                   
-                   <p:separator/>
-                   <p:message for="superior" />
-                   <p:message for="inferior" />
-
-               </h:panelGrid>
-                <!-- Seccion de los locales -->
-                <!-- Seccion del mapa -->
-                <p:outputLabel value="Ubicacion" />
-                 <p:gmap id="gmap" center="19.3142052,-99.1835216" zoom="17" 
+          <h2>Local X</h2>
+          
+          <h:form>
+            <p:dataList value="#{localController.local.nombre}" var="car" >
+              <f:facet name="header">
+		<p:outputPanel>								
+                  <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText value="Establecimiento X" style="text-align: left;color: red" />
+                      <p:rating value="5" readonly="true" />
+                  </h:panelGrid>
+								
+		</p:outputPanel>
+              </f:facet>
+            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+              <p:outputPanel>								
+		<h:panelGrid columns="3" cellpadding="5">
+                  <p:graphicImage library="images" style="width: 170px; height: auto" name="restaurante.jpg" />
+                    <h:panelGrid columns="2" cellpadding="5">
+                      <h:outputText value="Descripción:" />
+			<h:outputText value="Este es un local de comida dentro de CU que ofrece..." style="font-weight: bold"/>
+					 
+			<h:outputText value="Categoría:" />
+			<h:outputText value="Tortas" style="font-weight: bold"/>
+					 
+			<h:outputText value="Precios:" />
+			<h:outputText value="$15 ~ $45" style="font-weight: bold"/>
+                        
+                        <h:outputText value="Pumabus:" />
+			<h:outputText value="Anexo Ingeniería" style="font-weight: bold"/>
+                    </h:panelGrid>
+		</h:panelGrid>
+              </p:outputPanel>
+            </h:panelGrid>
+            </p:dataList>
+          </h:form>
+	<br></br>
+        
+        <p:gmap id="gmap" center="19.3142052,-99.1835216" zoom="14" 
                         type="HYBRID" 
                         style="width:600px;height:400px"
                         onPointClick="agregaMarcador(event);"
                         widgetVar="map"
                         disableDoubleClickZoom="true"      
-                        >
-                     <!--
-                     <p:ajax event="pointSelect" listener="#{localController.seleccion}"  update=":form:cords"   />
-					-->
-                </p:gmap>
-                <br/>
-                <!--
-                <h:panelGrid id="cords" columns="3">
-                    <p:outputLabel value="Latitud:" />
-                    <p:inputText id="lati" value=" #{localController.local.latitud}" disabled="true" />
-                    <p:message for="lati" />
+                        ></p:gmap>
+         <br/>
+          <script type="text/javascript" 
+                src="http://maps.googleapis.com/maps/api/js"
+          />
+          
+          <p:panelGrid >
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="3">Comentario</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        
+                        <p:column>
+                            <h:outputText value="Usuario"/>
+                        </p:column>
+                        
+                      <p:column rowspan="2">
+                            <h:outputText value="Me parecio un buen lugar para comer Pizza solo que se tardaron mucho en..." />
+                        </p:column>  
+                    </p:row>
                     
-                    <p:outputLabel value="Longitud:" />
-                    <p:inputText id="long" value="#{localController.local.longitud}" disabled="true"  />
-                    <p:message for="long" />
+                    <p:row>
+                        <p:column>
+                            <p:rating value="4" readonly="true" />
+                        </p:column>
+                    </p:row>
+                    
+          </p:panelGrid>
+          
+          <br/>
+        
+          <p:panelGrid >
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="3">Comentario</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        
+                        <p:column>
+                            <h:outputText value="Usuario"/>
+                        </p:column>
+                        
+                      <p:column rowspan="2">
+                            <h:outputText value="Me parecio un buen lugar para comer Pizza solo que se tardaron mucho en..." />
+                        </p:column>  
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:rating value="4" readonly="true" />
+                        </p:column>
+                    </p:row>
+                    
+          </p:panelGrid>
+          
+          <br/>
+          
+          <p:panelGrid >
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="3">Comentario</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        
+                        <p:column>
+                            <h:outputText value="Usuario"/>
+                        </p:column>
+                        
+                      <p:column rowspan="2">
+                            <h:outputText value="Me parecio un buen lugar para comer Pizza solo que se tardaron mucho en..." />
+                        </p:column>  
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:rating value="4" readonly="true" />
+                        </p:column>
+                    </p:row>
+                    
+          </p:panelGrid>
+          
+          <br/>
+          
+          <p:panelGrid >
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="3">Escribe tu Comentario</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        
+                        <p:column>
+                            <h:outputText value="Usuario"/>
+                        </p:column>
+                        
+                      <p:column rowspan="2">
+                            <p:inputText />
+                        </p:column>  
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <p:rating value="#{ratingView.rating2}" stars="5" cancel="false"/>
+                        </p:column>
+                    </p:row>
+                    
+          </p:panelGrid>
+          
+          <br/>
+          
+          <h:panelGrid columns="4" columnClasses="logo,detail">
+                          <p:outputPanel>								
+                            <p:commandButton ajax="true" 
+                                             accesskey=""
+                                             value="Cancelar"
+                                             onclick="window.location.replace('index.xhtml')"
+							/>	
+                            <p:commandButton ajax="true"   
+                                          value="Enviar"
+                                          onclick="window.location.replace('index.xhtml')"/>
+                            <p:commandButton ajax="true"   
+                                          value="Comentar Facebook"
+                                          onclick="window.location.replace('index.xhtml')"/>
+                            <p:commandButton ajax="true"   
+                                          value="Comentar Twitter"
+                                          onclick="window.location.replace('index.xhtml')"/>
+			
+				</p:outputPanel>
                 </h:panelGrid>
-                -->
-                <br/>
-                <!-- Seccion del mapa -->
-                
-                
-                <!-- Seccion de los menus -->
-                <h:panelGrid columns="3" id="panelMenu">
-                    <p:outputLabel value="Nombre" />
-                    <p:inputText id="menuNombre" value="#{localController.menu.nombre}"  />
-                    <p:message for="menuNombre" />
-                    
-                    <p:outputLabel value="Nombre" />
-                        <p:selectOneMenu id="categoria" value="#{localController.menu.categoria}"  >
-                            <f:selectItem itemLabel="Vegetariana" itemValue="Vegetariana" />
-                            <f:selectItem itemLabel="Carnes" itemValue="Carnes" />
-                        </p:selectOneMenu>
-                    <p:message for="categoria" />
-                    
-                    
-                    <p:outputLabel value="Descripcion" />
-                    <p:editor id="descripcion" value="#{localController.menu.descripcion}" />
-                    <p:message for="descripcion" />
-                
-                    <p:commandButton value="Guardar Menu" actionListener="#{localController.guardarMenu()}" update=":menus @form" /> 
-                    
-                </h:panelGrid>
-                <!-- Seccion de los menus -->
-                
-                
-                
-                <p:commandButton ajax="false"   
-                     actionListener="#{localController.guardarLocal()}" 
-                    value="Guardar" update=":locales @form" />
-
-            </h:form>
-
-
-            <h:form id="menus">
-                <p:dataTable  value="#{localController.local.menu}" 
-                          var="_menu" >
-                    <p:column headerText="Categoria">
-                    #{_menu.categoria}
-                </p:column>
-                
-                    <p:column headerText="Nombre">
-                    #{_menu.nombre}
-                </p:column>
-                    <p:column headerText="Descripcion">
-                    #{_menu.descripcion}
-                </p:column>
-                    
-            </p:dataTable>
-            </h:form>
-       
-            
+        
         </ui:define>
  
     </ui:composition>
