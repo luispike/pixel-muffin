@@ -17,21 +17,51 @@
     <h:body>
 
         <div id="top">
+			<h:form>
+            <ui:insert name="top">Buscar
+				<!-- Busqueda -->
+				<p:inputText id="campobusqueda" required="true"/>
+				<p:commandButton ajax="true" 
+                             icon="ui-icon-search"
+                             onclick="window.location.replace('verLocales.xhtml')"
+				/>				
+				<p:menu overlay="true" trigger="btnsesion" my="left top" at="right top">
+					<p:submenu label="Sesion">
+						<p:menuitem value="Iniciar Sesion" onclick="window.location.replace('iniciarSesion.xhtml')"></p:menuitem>
+						<p:menuitem value="Registrarse" onclick="window.location.replace('registro.xhtml')"></p:menuitem>
+                                                <p:menuitem value="Solicitar Baja" onclick="window.location.replace('solicitarbaja.xhtml')"></p:menuitem>
+                                                <p:menuitem value="Sugerir Local" onclick="window.location.replace('sugerirlocal.xhtml')"></p:menuitem>
+						<p:separator/>
+					</p:submenu>
+					<p:submenu label="Otros">
+						<p:menuitem value="Salir" onclick="window.location.replace('index.xhtml')"></p:menuitem>
+					</p:submenu>
+				</p:menu>
+                                <!-- el styleClass se definio en csslayout.css-->
+                                <p:commandButton id="btnsesion" value="Sesion" style= "float:right; color:white" styleClass="boton-sesion">
+                                    
+                                </p:commandButton>
+            </ui:insert>            
+            </h:form>
+        </div>
+        
+        <!-- Comentamos mi top para poner el de Gonzalo
+        <div id="top">
 
         <h:form>
-            <!-- <h1 style="color:white">Busca un local</h1> -->
-            <h:outputText value="Buscar" />
-            <p:inputText  id="nombre" size="35" validatorMessage="Formato no valido">
+             <h1 style="color:white">Busca un local</h1> 
+            
+            Buscar <p:inputText  id="nombre" size="35" validatorMessage="Formato no valido">
                 <f:validateRegex for="nombre" pattern="[a-zA-Z0-9]+" />
             
             <p:message for="nombre"/>
             </p:inputText>
-            <p:commandButton value="Buscar"  action="busqueda?faces-redirect=true"  />
+            <p:commandButton id="Buscar" icon="ui-icon-busca" action="busqueda?faces-redirect=true"  />
             <h:outputText value="   " />
-            <p:commandButton value="Iniciar sesion"  action="iniciarSesion?faces-redirect=true" style="alignment-adjust: after-edge" />
+            <p:commandButton value="Iniciar sesion"  action="iniciarSesion?faces-redirect=true" style= "float:right" />
             
 
-            <!-- Intento de separar en tres partes el top
+             Intento de separar en tres partes el top
             <p:layout style="min-width:400px;min-height:50px;">
                 <p:layoutUnit position="west">
                     <h:outputText value="Buscar" />
@@ -49,94 +79,25 @@
                     <p:commandButton value="Iniciar sesion"  actionListener="#{saludoController.cambiaNombre()}"/>
                 </p:layoutUnit>
             </p:layout>
-             fin del intento-->
-        </h:form>
-
-            
-        </div>
-        
-        <!-- lo vamos a eliminar del template
-        <div>
-            <div>
-                <div id="content" class="right_content">
-        <h:form>
-    <p:growl id="busquedaAvanzada" showDetail="true" />
- 
-    <p:panel header="BUSQUEDA AVANZADA" style="margin-bottom:5px;">
-        <h:panelGrid columns="2" cellpadding="1">
-            <p:outputLabel for="categoria" value="Categoria: " />
-            <p:selectOneMenu id="categoria" value="#{dropdownView.country}" style="width:160px">
-                <p:ajax listener="#{dropdownView.onCountryChange}" />
-                <f:selectItem itemLabel="Seleccione categoria" itemValue="" noSelectionOption="true" />
-                <f:selectItems value="#{dropdownView.countries}" />
-            </p:selectOneMenu>
- 
-            <p:outputLabel for="facultad" value="Facultad: " />
-            <p:selectOneMenu id="facultad" value="#{dropdownView.city}" style="width:160px">
-                <f:selectItem itemLabel="Seleccione facultad" itemValue="" noSelectionOption="true" />
-                <f:selectItems value="#{dropdownView.cities}" />
-            </p:selectOneMenu>
-
-            <p:outputLabel for="metrobus" value="Metrobus: " />
-            <p:selectOneMenu id="metrobus" value="#{dropdownView.city}" style="width:160px">
-                <f:selectItem itemLabel="Seleccione metrobus" itemValue="" noSelectionOption="true" />
-                <f:selectItems value="#{dropdownView.cities}" />
-            </p:selectOneMenu>
-
-            <p:outputLabel for="pumabus" value="Pumabus: " />
-            <p:selectOneMenu id="pumabus" value="#{dropdownView.city}" style="width:160px">
-                <f:selectItem itemLabel="Seleccione pumabus" itemValue="" noSelectionOption="true" />
-                <f:selectItems value="#{dropdownView.cities}" />
-            </p:selectOneMenu>
-
-            <p:outputLabel for="metro" value="Metro: " />
-            <p:selectOneMenu id="metro" value="#{dropdownView.city}" style="width:160px">
-                <f:selectItem itemLabel="Seleccione metro" itemValue="" noSelectionOption="true" />
-                <f:selectItems value="#{dropdownView.cities}" />
-            </p:selectOneMenu>
-
-            <p:outputLabel for="bicipuma" value="Bicipuma: " />
-            <p:selectOneMenu id="bicipuma" value="#{dropdownView.city}" style="width:160px">
-                <f:selectItem itemLabel="Seleccione bicipuma" itemValue="" noSelectionOption="true" />
-                <f:selectItems value="#{dropdownView.cities}" />
-            </p:selectOneMenu>
-
-            
-        <h:outputText value="Baño: " />
-        <p:selectBooleanButton id="bano" value="#{selectBooleanView.value1}" onLabel="Si" offLabel="No" style="width:60px" />
- 
-        <h:outputText value="Estacionamiento: " />
-        <p:selectBooleanButton id="estacionamiento" value="#{selectBooleanView.value1}" onLabel="Si" offLabel="No" style="width:60px" />
-
-
-                   <h:outputText id="rango" value="Rango de precios: " />
-                   <p:slider  minValue="10" maxValue="200" 
-                              for="inferior,superior" 
-                              display="rango" style="width: 400px" 
-                              range="true" 
-                              displayTemplate="Precios entre $ {min} y $ {max} " />
-                   <p:message for="rango" />
-                                     
-                   <h:inputHidden  id="inferior" value="#{localController.local.rangoInferior}" required="true" />
-                   <h:inputHidden  id="superior" value="#{localController.local.rangoSuperior}" required="true" />
-
-                   
-        </h:panelGrid>
- 
-        <p:separator />
- 
-        <p:commandButton value="Buscar" update="busquedaAvanzada" actionListener="#{dropdownView.displayLocation}" icon="ui-icon-check" />
-    </p:panel>
-</h:form>
-
                 </div>
-            </div>
-        </div>
+
+             fin del intento
+        </h:form> fin de mi top-->
+
+            
         
-        fin de lo que se va a eliminar-->
         
-        <div id="content" class="right_content">
-            <ui:insert name="content">Content</ui:insert>
+        
+        <div id="content" class="center_content" align="center">
+            <!-- <h:form>
+            <h:commandLink action="index" >
+            <p:graphicImage library="images" name="logo.jpg" style="width: 450px; height: auto"  styleClass="img-responsive" onclick="windows.location.replace('index.xhtlm')"/>
+            </h:commandLink>
+            </h:form>
+            -->
+            <img alt="Muffin" src="logo.jpg" style="width: 450px; height: auto" class="img-responsive" onclick="window.location.replace('index.xhtml')"/>
+                    <ui:insert name="content">Content</ui:insert>
+            
         </div>
         
         
@@ -144,7 +105,7 @@
 
         <h:form style="text-align: center;color: red">
 
-        <p:commandLink id="nosotros" action="quienesSomos?faces-redirect=true"> <!--ajax="false"-->
+        <p:commandLink id="nosotros" onclick="window.location.replace('quienesSomos.xhtml')"> <!--ajax="false"-->
             <h:outputText value="¿Quienes somos? " style="color: red" />
         </p:commandLink>
  

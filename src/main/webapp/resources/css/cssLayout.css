@@ -8,7 +8,10 @@
 }
 
 #bottom {
-    position: relative;
+    //position: fixed; 
+    position: relative; 
+    bottom:0%;
+    width:100%;
     background-color: #ffffff;
     padding: 15px;
     margin: 10px 0px 0px 0px;
@@ -30,8 +33,9 @@
 
 .center_content {
     position: relative;
-    background-color: #dddddd;
+    background-color: #ffffff;
     padding: 5px;
+    //margin: 0px 0px 0px 50px;
 }
 
 .left_content {
@@ -58,4 +62,14 @@
   text-decoration : underline;
 }
 
+.ui-state-default .ui-icon-busca {
+    background-image: url(../resources/images/busca.gif);
+}
 
+.ui-state-default .ui-icon-muffin {
+    background-image: url(../resources/images/logo2.jpg);
+}
+
+.boton-sesion {
+    background: blue
+}

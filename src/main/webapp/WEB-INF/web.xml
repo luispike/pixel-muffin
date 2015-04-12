@@ -6,7 +6,7 @@
 	 version="3.1">
     
 
-    <display-name>ProyectoCiencias</display-name>
+    <display-name>Muffin</display-name>
  
 	<!-- Indica que el proyecto esta en fase de desarrollo -->
 	<context-param>
